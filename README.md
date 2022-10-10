@@ -85,6 +85,37 @@ import source를 통째로 바꾸지 않고, 코드에서 사용하는 named exp
   },
 ```
 
+작성한 커스텀 로더는 아래와 같은 코드를
+
+```ts
+// index.ts
+import { add, sub, mul, div } from './module/a';
+
+(() => {
+  console.log('IIFE 실행\n');
+  console.log(`1 + 2 = ${add(1, 2)}\n`);
+  console.log(`2 - 1 = ${sub(2, 1)}\n`);
+  console.log(`5 * 2 = ${mul(5, 2)}\n`);
+  console.log(`4 / 2 = ${div(4, 2)}\n`);
+})();
+```
+
+이렇게 바꾼다
+
+```ts
+// index.ts
+import { mul, div } from './module/a';
+import { add, sub } from './module/b';
+
+(() => {
+  console.log('IIFE 실행\n');
+  console.log(`1 + 2 = ${add(1, 2)}\n`);
+  console.log(`2 - 1 = ${sub(2, 1)}\n`);
+  console.log(`5 * 2 = ${mul(5, 2)}\n`);
+  console.log(`4 / 2 = ${div(4, 2)}\n`);
+})();
+```
+
 ```shell
 # 위 옵션에 명시된 add와 sub 함수만 B 모듈에서 import되는 것으로 바뀌었다
 
@@ -104,11 +135,11 @@ I am module A div function
 
 ```
 
-- AST를 이해할수는 있었지만 jscodeshift 독스가 좀 힘들다..
+- AST는 이해할 수 있었지만 jscodeshift 독스가 좀 힘들다..
 - 빌드 부하가 얼마나 될지 살펴봐야 하겠다
 
 ### SWC Plugin
 
 - swc visit을 사용해서 소스코드에 접근 후 정규표현식으로 코드를 직접 수정하는 형태가 가능하다
 - [swc-transform-plugin](https://github.com/ankitchouhan1020/swc-plugin-transform-import#readme)이라는 swc-loader의 플러그인 구현체가 그런 느낌으로 작성되었다.
-- swc plugin + AST 직접 접근은 SWC 플러그인을 구현하면 가능할거 같은데 Rust로 써야하는듯 흑흑
+- swc plugin + AST 직접 접근은 SWC 플러그인을 구현하면 가능할거 같은데 Rust로 작성해야하는 듯 흑흑
