@@ -17,3 +17,8 @@ export const div = (a: number, b: number) => {
   console.log('I am module A div function');
   return Math.floor(a / b);
 };
+
+export const otherFn = (a: number, b: number) => {
+  console.log('I am module A Other function');
+  return a ** b;
+};

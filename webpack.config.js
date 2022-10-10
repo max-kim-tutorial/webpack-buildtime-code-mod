@@ -24,7 +24,9 @@ const webpackConfig = ({ target, env }) => {
     },
     plugins: [],
     resolve: {
-      alias: {},
+      alias: {
+        './module/a': './module/b',
+      },
       extensions: ['.ts', '.tsx', '.js', '.json'],
     },
   };
